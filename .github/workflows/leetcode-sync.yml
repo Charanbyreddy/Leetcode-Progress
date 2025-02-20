@@ -1,0 +1,67 @@
+name: Update LeetCode Progress
+
+on:
+  schedule:
+    - cron: "0 8 * * *"  # Runs every day at 8 AM UTC
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run LeetCode Sync Script
+        run: |
+          python <<EOF
+          import os
+          import requests
+          from bs4 import BeautifulSoup
+
+          LEETCODE_USERNAME = "raziord2717"
+
+          def fetch_solved_problems():
+              url = f"https://leetcode.com/u/{LEETCODE_USERNAME}/"
+              headers = {
+                  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+              }
+              response = requests.get(url, headers=headers)
+              if response.status_code != 200:
+                  print(f"❌ Failed to fetch LeetCode data. HTTP Status Code: {response.status_code}")
+                  exit(1)
+
+              soup = BeautifulSoup(response.text, "html.parser")
+              solved_problems = []
+              
+              for problem in soup.find_all("a", class_='h-5 hover:text-blue-s dark:hover:text-dark-blue-s break-all'):
+                  solved_problems.append(problem.text.strip())
+
+              return solved_problems
+
+          problems = fetch_solved_problems()
+          
+          with open("README.md", "w") as f:
+              f.write("# LeetCode Progress 🚀\n\n")
+              f.write(f"✅ **Total Problems Solved:** {len(problems)}\n\n")
+              for problem in problems:
+                  f.write(f"- {problem}\n")
+
+          EOF
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "actions@github.com"
+          git add README.md
+          git commit -m "🔄 Automated update of LeetCode progress" || echo "No changes to commit"
+          git push origin main
+
