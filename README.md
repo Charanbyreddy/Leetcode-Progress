@@ -12,7 +12,7 @@
 🔹 **This repository automatically tracks my LeetCode progress** using **GitHub Actions**.  
 🔹 **It updates daily** without any manual input.  
 
-⏳ **Last Updated:** _{{last_updated}}_
+⏳ **Last Updated:** _2025-02-22 20:13:14 UTC_
 
 ---
 
@@ -25,10 +25,10 @@
     <td>💀 <b>Hard</b></td>
   </tr>
   <tr>
-    <td><b>{{total_solved}}</b> / {{total_questions}}</td>
-    <td><b>{{easy_solved}}</b> / {{total_easy}}</td>
-    <td><b>{{medium_solved}}</b> / {{total_medium}}</td>
-    <td><b>{{hard_solved}}</b> / {{total_hard}}</td>
+    <td><b>29</b> / 3460</td>
+    <td><b>23</b> / 859</td>
+    <td><b>6</b> / 1799</td>
+    <td><b>0</b> / 802</td>
   </tr>
 </table>
 
