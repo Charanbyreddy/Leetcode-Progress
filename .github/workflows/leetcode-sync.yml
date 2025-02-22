@@ -26,7 +26,7 @@ jobs:
           import requests
           import datetime
 
-          LEETCODE_USERNAME = "raziord2717"  # Change to your LeetCode username
+          LEETCODE_USERNAME = "raziord2717"  # Replace with your LeetCode username
 
           def fetch_solved_problems():
               url = f"https://leetcode-stats-api.herokuapp.com/{LEETCODE_USERNAME}"
@@ -47,19 +47,24 @@ jobs:
               readme_template = file.read()
 
           # Replace placeholders with real values
-          readme_content = readme_template.replace("{{total_solved}}", str(leetcode_data["totalSolved"]))
-          readme_content = readme_content.replace("{{total_questions}}", str(leetcode_data["totalQuestions"]))
-          readme_content = readme_content.replace("{{easy_solved}}", str(leetcode_data["easySolved"]))
-          readme_content = readme_content.replace("{{total_easy}}", str(leetcode_data["totalEasy"]))
-          readme_content = readme_content.replace("{{medium_solved}}", str(leetcode_data["mediumSolved"]))
-          readme_content = readme_content.replace("{{total_medium}}", str(leetcode_data["totalMedium"]))
-          readme_content = readme_content.replace("{{hard_solved}}", str(leetcode_data["hardSolved"]))
-          readme_content = readme_content.replace("{{total_hard}}", str(leetcode_data["totalHard"]))
-          readme_content = readme_content.replace("{{last_updated}}", last_updated)
+          replacements = {
+              "{{total_solved}}": str(leetcode_data.get("totalSolved", 0)),
+              "{{total_questions}}": str(leetcode_data.get("totalQuestions", 0)),
+              "{{easy_solved}}": str(leetcode_data.get("easySolved", 0)),
+              "{{total_easy}}": str(leetcode_data.get("totalEasy", 0)),
+              "{{medium_solved}}": str(leetcode_data.get("mediumSolved", 0)),
+              "{{total_medium}}": str(leetcode_data.get("totalMedium", 0)),
+              "{{hard_solved}}": str(leetcode_data.get("hardSolved", 0)),
+              "{{total_hard}}": str(leetcode_data.get("totalHard", 0)),
+              "{{last_updated}}": last_updated
+          }
+
+          for key, value in replacements.items():
+              readme_template = readme_template.replace(key, value)
 
           # Write the new content back to README.md
           with open("README.md", "w") as file:
-              file.write(readme_content)
+              file.write(readme_template)
           EOF
 
       - name: Commit and Push Changes
