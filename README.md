@@ -17,9 +17,20 @@
 ---
 
 ## 📈 **LeetCode Stats**
-| ✅ Total Problems Solved | 🏆 Easy | 🔥 Medium | 💀 Hard |
-|----------------|-----------|------------|---------|
-| **{{total_solved}}** / {{total_questions}} | **{{easy_solved}}** / {{total_easy}} | **{{medium_solved}}** / {{total_medium}} | **{{hard_solved}}** / {{total_hard}} |
+<table>
+  <tr>
+    <td>✅ <b>Total Problems Solved</b></td>
+    <td>🏆 <b>Easy</b></td>
+    <td>🔥 <b>Medium</b></td>
+    <td>💀 <b>Hard</b></td>
+  </tr>
+  <tr>
+    <td><b>{{total_solved}}</b> / {{total_questions}}</td>
+    <td><b>{{easy_solved}}</b> / {{total_easy}}</td>
+    <td><b>{{medium_solved}}</b> / {{total_medium}}</td>
+    <td><b>{{hard_solved}}</b> / {{total_hard}}</td>
+  </tr>
+</table>
 
 ---
 
