@@ -12,29 +12,14 @@
 🔹 **This repository automatically tracks my LeetCode progress** using **GitHub Actions**.  
 🔹 **It updates daily** without any manual input.  
 
-⏳ **Last Updated:** _2025-02-22 17:51:55 UTC_
+⏳ **Last Updated:** _{{last_updated}}_
 
 ---
 
 ## 📈 **LeetCode Stats**
-<table align="center">
-  <tr>
-    <td>✅ <b>Total Problems Solved:</b></td>
-    <td><b>29</b> / 3460</td>
-  </tr>
-  <tr>
-    <td>🏆 <b>Easy:</b></td>
-    <td>23 / 859</td>
-  </tr>
-  <tr>
-    <td>🔥 <b>Medium:</b></td>
-    <td>6 / 1799</td>
-  </tr>
-  <tr>
-    <td>💀 <b>Hard:</b></td>
-    <td>0 / 802</td>
-  </tr>
-</table>
+| ✅ Total Problems Solved | 🏆 Easy | 🔥 Medium | 💀 Hard |
+|----------------|-----------|------------|---------|
+| **{{total_solved}}** / {{total_questions}} | **{{easy_solved}}** / {{total_easy}} | **{{medium_solved}}** / {{total_medium}} | **{{hard_solved}}** / {{total_hard}} |
 
 ---
 
