@@ -18,17 +18,43 @@ jobs:
           python-version: '3.x'
 
       - name: Install Dependencies
-        run: pip install requests beautifulsoup4
+        run: pip install requests
 
-      - name: Run LeetCode Sync Script
+      - name: Fetch LeetCode Progress and Update README
         run: |
           python <<EOF
-          import os
           import requests
-          from bs4 import BeautifulSoup
 
-          # 🔹 Your LeetCode Username
-          LEETCODE_USERNAME = "raziord2717"
+          LEETCODE_USERNAME = "raziord2717"  # 🔹 Update with your username
 
           def fetch_solved_problems():
-              url
+              url = f"https://leetcode-stats-api.herokuapp.com/{LEETCODE_USERNAME}"
+              response = requests.get(url)
+              
+              if response.status_code != 200:
+                  print(f"❌ Failed to fetch LeetCode data. HTTP Status Code: {response.status_code}")
+                  exit(1)
+
+              data = response.json()
+              return data
+
+          # Fetch LeetCode stats
+          leetcode_data = fetch_solved_problems()
+
+          # Update README.md file
+          with open("README.md", "w") as f:
+              f.write("# 🚀 LeetCode Progress\n\n")
+              f.write(f"✅ **Total Problems Solved:** {leetcode_data['totalSolved']} / {leetcode_data['totalQuestions']}\n\n")
+              f.write(f"🏆 **Easy:** {leetcode_data['easySolved']} / {leetcode_data['totalEasy']}\n")
+              f.write(f"🔥 **Medium:** {leetcode_data['mediumSolved']} / {leetcode_data['totalMedium']}\n")
+              f.write(f"💀 **Hard:** {leetcode_data['hardSolved']} / {leetcode_data['totalHard']}\n")
+
+          EOF
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "🔄 Automated update of LeetCode progress"
+          git push origin main
