@@ -1,36 +1,55 @@
-# 🚀 LeetCode Progress Tracker
+<h1 align="center">🚀 LeetCode Progress Tracker 🚀</h1>
 
-![LeetCode Badge](https://img.shields.io/badge/Solved_Problems-🚀_Auto--Updating-blue?style=for-the-badge)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Charanbyreddy/Leetcode-Progress/leetcode-sync.yml?style=for-the-badge)
-![GitHub last commit](https://img.shields.io/github/last-commit/Charanbyreddy/Leetcode-Progress?style=for-the-badge)
-
-### **📌 About**
-This repository automatically tracks my **LeetCode progress** using **GitHub Actions**.  
-Every day at **8 AM UTC**, it fetches my latest **solved problem count** and updates this repository.
+<p align="center">
+  <img src="https://img.shields.io/badge/LeetCode%20Auto--Update-Enabled-blue?style=for-the-badge" alt="LeetCode Auto-Update">
+  <img src="https://img.shields.io/github/actions/workflow/status/Charanbyreddy/Leetcode-Progress/leetcode-sync.yml?style=for-the-badge" alt="GitHub Actions Status">
+  <img src="https://img.shields.io/github/last-commit/Charanbyreddy/Leetcode-Progress?style=for-the-badge" alt="Last Commit">
+</p>
 
 ---
 
-## 📈 **Current LeetCode Stats**
-> ✅ **Total Problems Solved:** `{{total_solved}}` / `{{total_questions}}`
->
-> 🏆 **Easy:** `{{easy_solved}}` / `{{total_easy}}`
->
-> 🔥 **Medium:** `{{medium_solved}}` / `{{total_medium}}`
->
-> 💀 **Hard:** `{{hard_solved}}` / `{{total_hard}}`
+## 📌 **About This Repository**
+This repository automatically **tracks my LeetCode progress** and updates daily using **GitHub Actions**.  
+No manual updates required! 🤖🔥  
 
 ⏳ **Last Updated:** _{{last_updated}}_
 
 ---
 
-## 🚀 **My LeetCode Streak**
-![LeetCode Stats](https://leetcard.jacoblin.cool/raziord2717?theme=dark&font=Fira%20Code)
+## 📈 **LeetCode Stats**
+<table align="center">
+  <tr>
+    <td>✅ <b>Total Problems Solved:</b></td>
+    <td><b>{{total_solved}}</b> / {{total_questions}}</td>
+  </tr>
+  <tr>
+    <td>🏆 <b>Easy:</b></td>
+    <td>{{easy_solved}} / {{total_easy}}</td>
+  </tr>
+  <tr>
+    <td>🔥 <b>Medium:</b></td>
+    <td>{{medium_solved}} / {{total_medium}}</td>
+  </tr>
+  <tr>
+    <td>💀 <b>Hard:</b></td>
+    <td>{{hard_solved}} / {{total_hard}}</td>
+  </tr>
+</table>
+
+---
+
+## 🎯 **LeetCode Streak & Profile**
+<p align="center">
+  <a href="https://leetcode.com/raziord2717/">
+    <img src="https://leetcard.jacoblin.cool/raziord2717?theme=dark&font=Fira%20Code" alt="LeetCode Stats">
+  </a>
+</p>
 
 ---
 
 ## 📝 **Solved Problems List**
 <details>
-<summary>Click to Expand</summary>
+  <summary><b>Click to Expand 📝</b></summary>
 
 {{problem_list}}
 
@@ -38,24 +57,38 @@ Every day at **8 AM UTC**, it fetches my latest **solved problem count** and upd
 
 ---
 
-## 📌 **How This Works**
-- A **GitHub Action** fetches my LeetCode progress **daily**.
-- Updates the **README.md** automatically.
-- Uses the **LeetCode API** for accuracy.
-- No manual intervention required! 🤖
+## 🛠 **How It Works**
+- ✅ A **GitHub Action** fetches my latest **LeetCode stats** every **24 hours**.
+- 🔄 Automatically updates the **README.md** with the latest progress.
+- 📊 Uses the **LeetCode API** for accurate and real-time tracking.
 
 ---
 
-## 📣 **Connect With Me**
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Charanbyreddy-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/yourprofile/)
-[![GitHub](https://img.shields.io/badge/GitHub-Charanbyreddy-black?style=for-the-badge&logo=github)](https://github.com/Charanbyreddy)
-[![LeetCode](https://img.shields.io/badge/LeetCode-Profile-orange?style=for-the-badge&logo=leetcode)](https://leetcode.com/raziord2717/)
+## 📌 **Connect With Me**
+<p align="center">
+  <a href="https://github.com/Charanbyreddy" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-Charanbyreddy-black?style=for-the-badge&logo=github" alt="GitHub">
+  </a>
+  <a href="https://www.linkedin.com/in/yourprofile/" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-Charanbyreddy-blue?style=for-the-badge&logo=linkedin" alt="LinkedIn">
+  </a>
+  <a href="https://leetcode.com/raziord2717/" target="_blank">
+    <img src="https://img.shields.io/badge/LeetCode-Profile-orange?style=for-the-badge&logo=leetcode" alt="LeetCode">
+  </a>
+</p>
 
 ---
 
-### **📌 Contribute**
-If you like this project, **give it a ⭐** and feel free to fork and improve it!
+## 🎯 **How to Use This**
+1️⃣ **This repository updates automatically!** No manual updates required.  
+2️⃣ **Check back anytime** to see my latest LeetCode progress.  
+3️⃣ **Click on my LeetCode profile** to see my submissions in detail.  
 
 ---
 
-### 🔄 **Auto-updates daily via GitHub Actions** 🚀
+## 🌟 **Support & Contributions**
+If you find this project useful, feel free to **star ⭐ this repository** and **fork it** to create your own **LeetCode Tracker**!  
+
+---
+
+### 🚀 **Auto-Updated Daily via GitHub Actions**
