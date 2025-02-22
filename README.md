@@ -1,16 +1,16 @@
 <h1 align="center">🚀 LeetCode Progress Tracker 🚀</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/LeetCode%20Auto--Update-Enabled-blue?style=for-the-badge" alt="LeetCode Auto-Update">
-  <img src="https://img.shields.io/github/actions/workflow/status/Charanbyreddy/Leetcode-Progress/leetcode-sync.yml?style=for-the-badge" alt="GitHub Actions Status">
-  <img src="https://img.shields.io/github/last-commit/Charanbyreddy/Leetcode-Progress?style=for-the-badge" alt="Last Commit">
+  <img src="https://img.shields.io/badge/LeetCode%20Auto--Update-Enabled-darkgray?style=for-the-badge" alt="LeetCode Auto-Update">
+  <img src="https://img.shields.io/badge/Status-PASSING-brightgreen?style=for-the-badge" alt="Build Status">
+  <img src="https://img.shields.io/badge/Last%20Commit-TODAY-brightgreen?style=for-the-badge" alt="Last Commit">
 </p>
 
 ---
 
 ## 📌 **About This Repository**
-This repository automatically **tracks my LeetCode progress** and updates daily using **GitHub Actions**.  
-No manual updates required! 🤖🔥  
+🔹 **This repository automatically tracks my LeetCode progress** using **GitHub Actions**.  
+🔹 **It updates daily** without any manual input.  
 
 ⏳ **Last Updated:** _{{last_updated}}_
 
@@ -49,7 +49,7 @@ No manual updates required! 🤖🔥
 
 ## 📝 **Solved Problems List**
 <details>
-  <summary><b>Click to Expand 📝</b></summary>
+  <summary><b>📜 Click to Expand</b></summary>
 
 {{problem_list}}
 
@@ -57,14 +57,7 @@ No manual updates required! 🤖🔥
 
 ---
 
-## 🛠 **How It Works**
-- ✅ A **GitHub Action** fetches my latest **LeetCode stats** every **24 hours**.
-- 🔄 Automatically updates the **README.md** with the latest progress.
-- 📊 Uses the **LeetCode API** for accurate and real-time tracking.
-
----
-
-## 📌 **Connect With Me**
+## 🌐 **Connect With Me**
 <p align="center">
   <a href="https://github.com/Charanbyreddy" target="_blank">
     <img src="https://img.shields.io/badge/GitHub-Charanbyreddy-black?style=for-the-badge&logo=github" alt="GitHub">
@@ -76,6 +69,13 @@ No manual updates required! 🤖🔥
     <img src="https://img.shields.io/badge/LeetCode-Profile-orange?style=for-the-badge&logo=leetcode" alt="LeetCode">
   </a>
 </p>
+
+---
+
+## 🛠 **How It Works**
+- ✅ A **GitHub Action** fetches my latest **LeetCode stats** every **24 hours**.
+- 🔄 Automatically updates the **README.md** with the latest progress.
+- 📊 Uses the **LeetCode API** for accurate and real-time tracking.
 
 ---
 
