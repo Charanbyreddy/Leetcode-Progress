@@ -20,32 +20,34 @@ jobs:
       - name: Install Dependencies
         run: pip install requests
 
-      - name: Fetch LeetCode Progress and Update README
+      - name: Fetch LeetCode Progress and Debug Log
         run: |
           python <<EOF
           import requests
           import datetime
 
-          LEETCODE_USERNAME = "raziord2717"  # Replace with your actual LeetCode username
+          LEETCODE_USERNAME = "raziord2717"  # Change this to your LeetCode username
 
           def fetch_solved_problems():
               url = f"https://leetcode-stats-api.herokuapp.com/{LEETCODE_USERNAME}"
               response = requests.get(url)
               
+              print(f"📡 Fetching LeetCode Data from {url}")
+              print(f"🔄 API Response Code: {response.status_code}")
+
               if response.status_code != 200:
-                  print(f"❌ Failed to fetch LeetCode data. HTTP Status Code: {response.status_code}")
+                  print(f"❌ API Fetch Failed. Status Code: {response.status_code}")
                   exit(1)
 
-              return response.json()
+              data = response.json()
+              print("✅ API Data:", data)  # Debug log to see fetched values
+              return data
 
-          # Fetch LeetCode stats
+          # Fetch data
           leetcode_data = fetch_solved_problems()
           last_updated = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
-          # Debug: Print fetched values
-          print("Fetched LeetCode Stats:", leetcode_data)
-
-          # Read the existing README template
+          # Read existing README
           with open("README.md", "r") as file:
               readme_template = file.read()
 
@@ -63,11 +65,14 @@ jobs:
           }
 
           for key, value in replacements.items():
+              print(f"🔄 Replacing {key} with {value}")  # Debugging step
               readme_template = readme_template.replace(key, value)
 
-          # Write the new content back to README.md
+          # Write updated README
           with open("README.md", "w") as file:
               file.write(readme_template)
+
+          print("✅ README.md Updated Successfully!")
           EOF
 
       - name: Commit and Push Changes
