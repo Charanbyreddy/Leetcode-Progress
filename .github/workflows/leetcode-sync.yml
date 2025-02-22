@@ -26,7 +26,7 @@ jobs:
           import requests
           import datetime
 
-          LEETCODE_USERNAME = "raziord2717"  # Replace with your LeetCode username
+          LEETCODE_USERNAME = "raziord2717"  # Replace with your actual LeetCode username
 
           def fetch_solved_problems():
               url = f"https://leetcode-stats-api.herokuapp.com/{LEETCODE_USERNAME}"
@@ -42,20 +42,23 @@ jobs:
           leetcode_data = fetch_solved_problems()
           last_updated = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
+          # Debug: Print fetched values
+          print("Fetched LeetCode Stats:", leetcode_data)
+
           # Read the existing README template
           with open("README.md", "r") as file:
               readme_template = file.read()
 
           # Replace placeholders with real values
           replacements = {
-              "{{total_solved}}": str(leetcode_data.get("totalSolved", 0)),
-              "{{total_questions}}": str(leetcode_data.get("totalQuestions", 0)),
-              "{{easy_solved}}": str(leetcode_data.get("easySolved", 0)),
-              "{{total_easy}}": str(leetcode_data.get("totalEasy", 0)),
-              "{{medium_solved}}": str(leetcode_data.get("mediumSolved", 0)),
-              "{{total_medium}}": str(leetcode_data.get("totalMedium", 0)),
-              "{{hard_solved}}": str(leetcode_data.get("hardSolved", 0)),
-              "{{total_hard}}": str(leetcode_data.get("totalHard", 0)),
+              "{{total_solved}}": str(leetcode_data.get("totalSolved", "0")),
+              "{{total_questions}}": str(leetcode_data.get("totalQuestions", "0")),
+              "{{easy_solved}}": str(leetcode_data.get("easySolved", "0")),
+              "{{total_easy}}": str(leetcode_data.get("totalEasy", "0")),
+              "{{medium_solved}}": str(leetcode_data.get("mediumSolved", "0")),
+              "{{total_medium}}": str(leetcode_data.get("totalMedium", "0")),
+              "{{hard_solved}}": str(leetcode_data.get("hardSolved", "0")),
+              "{{total_hard}}": str(leetcode_data.get("totalHard", "0")),
               "{{last_updated}}": last_updated
           }
 
