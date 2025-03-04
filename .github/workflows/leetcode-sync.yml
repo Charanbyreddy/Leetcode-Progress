@@ -1,8 +1,8 @@
-name: Update LeetCode Progress
+name: Auto-Update LeetCode Progress
 
 on:
   schedule:
-    - cron: "0 8 * * *"  # Runs every day at 8 AM UTC
+    - cron: "0 */6 * * *"  # Runs every 6 hours
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -20,18 +20,20 @@ jobs:
       - name: Install Dependencies
         run: pip install requests
 
-      - name: Fetch LeetCode Progress and Debug Log
+      - name: Fetch LeetCode Progress and Update README
         run: |
           python <<EOF
           import requests
           import datetime
+          import re
 
           LEETCODE_USERNAME = "raziord2717"
+          README_FILE = "README.md"
 
           def fetch_solved_problems():
               url = f"https://leetcode-stats-api.herokuapp.com/{LEETCODE_USERNAME}"
               response = requests.get(url)
-              
+
               print(f"📡 Fetching LeetCode Data from {url}")
               print(f"🔄 API Response Code: {response.status_code}")
 
@@ -40,48 +42,62 @@ jobs:
                   exit(1)
 
               data = response.json()
-              print("✅ API Data:", data)  # Debug log to see fetched values
+              print("✅ API Data:", data)
               return data
 
+          # Fetch latest LeetCode data
           leetcode_data = fetch_solved_problems()
           last_updated = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
-          with open("README.md", "r") as file:
-              readme_template = file.read()
+          # Read existing README
+          with open(README_FILE, "r") as file:
+              readme_content = file.read()
 
-          replacements = {
-              "{{total_solved}}": str(leetcode_data.get("totalSolved", "0")),
-              "{{total_questions}}": str(leetcode_data.get("totalQuestions", "0")),
-              "{{easy_solved}}": str(leetcode_data.get("easySolved", "0")),
-              "{{total_easy}}": str(leetcode_data.get("totalEasy", "0")),
-              "{{medium_solved}}": str(leetcode_data.get("mediumSolved", "0")),
-              "{{total_medium}}": str(leetcode_data.get("totalMedium", "0")),
-              "{{hard_solved}}": str(leetcode_data.get("hardSolved", "0")),
-              "{{total_hard}}": str(leetcode_data.get("totalHard", "0")),
-              "{{last_updated}}": last_updated
-          }
+          # Extract current solved problems from README using regex
+          match = re.search(r"Total Solved: (\d+)/(\d+)", readme_content)
+          current_solved = int(match.group(1)) if match else 0
 
-          for key, value in replacements.items():
-              print(f"🔄 Replacing {key} with {value}")
-              readme_template = readme_template.replace(key, value)
+          new_solved = int(leetcode_data.get("totalSolved", "0"))
 
-          with open("README.md", "w") as file:
-              file.write(readme_template)
+          # Only update README if the total solved count has changed
+          if new_solved > current_solved:
+              replacements = {
+                  "{{total_solved}}": str(new_solved),
+                  "{{total_questions}}": str(leetcode_data.get("totalQuestions", "0")),
+                  "{{easy_solved}}": str(leetcode_data.get("easySolved", "0")),
+                  "{{total_easy}}": str(leetcode_data.get("totalEasy", "0")),
+                  "{{medium_solved}}": str(leetcode_data.get("mediumSolved", "0")),
+                  "{{total_medium}}": str(leetcode_data.get("totalMedium", "0")),
+                  "{{hard_solved}}": str(leetcode_data.get("hardSolved", "0")),
+                  "{{total_hard}}": str(leetcode_data.get("totalHard", "0")),
+                  "{{last_updated}}": last_updated
+              }
 
-          print("✅ README.md Updated Successfully!")
+              for key, value in replacements.items():
+                  print(f"🔄 Replacing {key} with {value}")
+                  readme_content = readme_content.replace(key, value)
+
+              with open(README_FILE, "w") as file:
+                  file.write(readme_content)
+
+              print("✅ README.md Updated Successfully!")
+
+              # Mark for commit
+              exit(0)
+          else:
+              print("✅ No new progress detected. Skipping commit.")
+              exit(1)  # Exit with a non-zero code to prevent Git commit step
           EOF
 
       - name: Commit and Push Changes
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
           git add README.md
 
-          # Check if there are changes before committing
-          if git diff --cached --exit-code; then
-            echo "✅ No changes detected. Skipping commit."
-          else
-            echo " " >> README.md  # Force a minor update to ensure commit
-            git commit -am "🔄 Auto-update LeetCode progress"
-            git push https://x-access-token:${GITHUB_TOKEN}@github.com/Charanbyreddy/Leetcode-Progress.git main
-          fi
+          # Commit only if changes are detected
+          git commit -m "🔄 Auto-update LeetCode progress"
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/Charanbyreddy/Leetcode-Progress.git main
