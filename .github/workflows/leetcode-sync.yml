@@ -27,24 +27,54 @@ jobs:
           import datetime
           import re
           import sys
+          import time
 
-          LEETCODE_USERNAME = "raziord2717"  # Change this to your LeetCode username
+          LEETCODE_USERNAME = "raziord2717"
           README_FILE = "README.md"
 
           def fetch_solved_problems():
-              url = f"https://leetcode-stats-api.herokuapp.com/{LEETCODE_USERNAME}"
-              response = requests.get(url)
+              url = "https://leetcode.com/graphql"
+              query = {
+                  "query": """
+                  query getUserProfile($username: String!) {
+                      matchedUser(username: $username) {
+                          submitStats {
+                              acSubmissionNum {
+                                  count
+                                  difficulty
+                              }
+                          }
+                      }
+                  }
+                  """,
+                  "variables": {"username": LEETCODE_USERNAME}
+              }
 
-              print(f"📡 Fetching LeetCode Data from {url}")
-              print(f"🔄 API Response Code: {response.status_code}")
+              headers = {"Content-Type": "application/json"}
+              for attempt in range(5):  # Retry up to 5 times if API fails
+                  response = requests.post(url, json=query, headers=headers)
+                  print(f"📡 Attempt {attempt+1}: Fetching LeetCode Data from {url}")
+                  print(f"🔄 API Response Code: {response.status_code}")
 
-              if response.status_code != 200:
-                  print(f"❌ API Fetch Failed. Status Code: {response.status_code}")
-                  sys.exit(1)  # FIXED: Use sys.exit(1) instead of exit 1
+                  if response.status_code == 200:
+                      data = response.json()
+                      user_data = data.get("data", {}).get("matchedUser", {}).get("submitStats", {}).get("acSubmissionNum", [])
+                      if not user_data:
+                          print("❌ No data received from LeetCode API")
+                          sys.exit(1)
 
-              data = response.json()
-              print("✅ API Data:", data)
-              return data
+                      return {
+                          "totalSolved": user_data[0]["count"],
+                          "easySolved": user_data[1]["count"],
+                          "mediumSolved": user_data[2]["count"],
+                          "hardSolved": user_data[3]["count"],
+                      }
+                  
+                  print("⚠️ Retrying in 5 seconds...")
+                  time.sleep(5)  # Wait before retrying
+
+              print("❌ API Fetch Failed after 5 attempts. Skipping update.")
+              sys.exit(0)  # Exit gracefully if API fails
 
           # Fetch latest LeetCode data
           leetcode_data = fetch_solved_problems()
@@ -64,13 +94,9 @@ jobs:
           if new_solved > current_solved:
               replacements = {
                   "{{total_solved}}": str(new_solved),
-                  "{{total_questions}}": str(leetcode_data.get("totalQuestions", "0")),
                   "{{easy_solved}}": str(leetcode_data.get("easySolved", "0")),
-                  "{{total_easy}}": str(leetcode_data.get("totalEasy", "0")),
                   "{{medium_solved}}": str(leetcode_data.get("mediumSolved", "0")),
-                  "{{total_medium}}": str(leetcode_data.get("totalMedium", "0")),
                   "{{hard_solved}}": str(leetcode_data.get("hardSolved", "0")),
-                  "{{total_hard}}": str(leetcode_data.get("totalHard", "0")),
                   "{{last_updated}}": last_updated
               }
 
@@ -82,15 +108,13 @@ jobs:
                   file.write(readme_content)
 
               print("✅ README.md Updated Successfully!")
-
               sys.exit(0)  # Exit successfully when update happens
           else:
               print("✅ No new progress detected. Skipping commit.")
-              sys.exit(1)  # FIXED: Use sys.exit(1) instead of exit 1
+              sys.exit(0)  # Exit successfully without committing
           EOF
 
       - name: Commit and Push Changes
-        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
