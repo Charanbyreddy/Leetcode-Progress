@@ -26,8 +26,9 @@ jobs:
           import requests
           import datetime
           import re
+          import sys
 
-          LEETCODE_USERNAME = "raziord2717"
+          LEETCODE_USERNAME = "raziord2717"  # Change this to your LeetCode username
           README_FILE = "README.md"
 
           def fetch_solved_problems():
@@ -39,7 +40,7 @@ jobs:
 
               if response.status_code != 200:
                   print(f"❌ API Fetch Failed. Status Code: {response.status_code}")
-                  exit(1)
+                  sys.exit(1)  # FIXED: Use sys.exit(1) instead of exit 1
 
               data = response.json()
               print("✅ API Data:", data)
@@ -82,11 +83,10 @@ jobs:
 
               print("✅ README.md Updated Successfully!")
 
-              # Mark for commit
-              exit(0)
+              sys.exit(0)  # Exit successfully when update happens
           else:
               print("✅ No new progress detected. Skipping commit.")
-              exit 1  # Exit with a non-zero code to prevent Git commit step
+              sys.exit(1)  # FIXED: Use sys.exit(1) instead of exit 1
           EOF
 
       - name: Commit and Push Changes
