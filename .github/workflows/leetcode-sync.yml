@@ -86,7 +86,7 @@ jobs:
               exit(0)
           else:
               print("✅ No new progress detected. Skipping commit.")
-              exit(1)  # Exit with a non-zero code to prevent Git commit step
+              exit 1  # Exit with a non-zero code to prevent Git commit step
           EOF
 
       - name: Commit and Push Changes
@@ -98,6 +98,11 @@ jobs:
           git config --global user.email "actions@github.com"
           git add README.md
 
-          # Commit only if changes are detected
+          # Check if there are changes before committing
+          if git diff --cached --quiet; then
+            echo "✅ No changes detected. Skipping commit."
+            exit 0  # Exit successfully instead of failing
+          fi
+
           git commit -m "🔄 Auto-update LeetCode progress"
           git push https://x-access-token:${GITHUB_TOKEN}@github.com/Charanbyreddy/Leetcode-Progress.git main
