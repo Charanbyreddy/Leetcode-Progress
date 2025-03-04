@@ -26,7 +26,7 @@ jobs:
           import requests
           import datetime
 
-          LEETCODE_USERNAME = "raziord2717"  # Change this to your LeetCode username
+          LEETCODE_USERNAME = "raziord2717"
 
           def fetch_solved_problems():
               url = f"https://leetcode-stats-api.herokuapp.com/{LEETCODE_USERNAME}"
@@ -43,15 +43,12 @@ jobs:
               print("✅ API Data:", data)  # Debug log to see fetched values
               return data
 
-          # Fetch data
           leetcode_data = fetch_solved_problems()
           last_updated = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
-          # Read existing README
           with open("README.md", "r") as file:
               readme_template = file.read()
 
-          # Replace placeholders with real values
           replacements = {
               "{{total_solved}}": str(leetcode_data.get("totalSolved", "0")),
               "{{total_questions}}": str(leetcode_data.get("totalQuestions", "0")),
@@ -65,10 +62,9 @@ jobs:
           }
 
           for key, value in replacements.items():
-              print(f"🔄 Replacing {key} with {value}")  # Debugging step
+              print(f"🔄 Replacing {key} with {value}")
               readme_template = readme_template.replace(key, value)
 
-          # Write updated README
           with open("README.md", "w") as file:
               file.write(readme_template)
 
@@ -79,8 +75,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
           git add README.md
-          git commit -am "🔄 Forced update of LeetCode progress"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/Charanbyreddy/Leetcode-Progress.git main
+
+          # Check if there are changes before committing
+          if git diff --cached --exit-code; then
+            echo "✅ No changes detected. Skipping commit."
+          else
+            echo " " >> README.md  # Force a minor update to ensure commit
+            git commit -am "🔄 Auto-update LeetCode progress"
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/Charanbyreddy/Leetcode-Progress.git main
+          fi
